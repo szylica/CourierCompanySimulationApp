@@ -1,4 +1,5 @@
-package org.szylica.model.Enums;
+package org.szylica.model.locker.enums;
 
 public enum LockerStatus {
+    FREE, OCCUPIED
 }
