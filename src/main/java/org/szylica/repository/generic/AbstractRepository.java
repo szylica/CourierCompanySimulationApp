@@ -11,8 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID> {
-
-    private final Jdbi jdbi;
+    protected final Jdbi jdbi;
     private final Class<T> entityClass;
     private final String tableName;
     private final Map<String, String> customColumnNames;
@@ -24,6 +23,8 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         this.tableName = English.plural(entityClass.getSimpleName().toLowerCase());
         this.customColumnNames = getFieldColumnMap();
     }
+
+    protected abstract void registerMappers();
 
     // Custom names for mapping classes names to column names
     protected abstract Map<String, String> getFieldColumnMap();
@@ -108,6 +109,32 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
                         .mapToBean(entityClass)
                         .list());
 
+    }
+
+    @Override
+    public List<T> findAllWhere(Map<String, String> filters, String... separators) {
+        if(filters == null ) {
+            throw new IllegalArgumentException("filters cannot be null");
+        }
+
+        if(filters.size()-1 != separators.length) {
+            throw new IllegalArgumentException("wrong number of separators");
+        }
+
+        StringBuilder where = new StringBuilder();
+
+        var i = 0;
+        for(Map.Entry<String, String> entry : filters.entrySet()) {
+            where.append("%s = %s ".formatted(getColumnName(entry.getKey()), entry.getValue()));
+            if(i < separators.length) {
+                where.append(separators[i]).append(" ");
+            }
+            i++;
+        }
+
+        var sql = "SELECT * FROM %s WHERE %s".formatted(tableName,  where.toString());
+        System.out.println(sql);
+        return null;
     }
 
     private Class<?> getGenericTypeClass() {

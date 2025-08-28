@@ -15,6 +15,11 @@ public class OrderRepositoryImpl extends AbstractRepository<Order, Long> impleme
     }
 
     @Override
+    protected void registerMappers() {
+
+    }
+
+    @Override
     protected Map<String, String> getFieldColumnMap(){
         return Map.ofEntries(
                 Map.entry("userId", "user_id"),

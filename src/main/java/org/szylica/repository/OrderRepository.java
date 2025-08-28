@@ -1,5 +1,8 @@
 package org.szylica.repository;
 
 
-public interface OrderRepository {
+import org.szylica.model.Order;
+import org.szylica.repository.generic.CrudRepository;
+
+public interface OrderRepository extends CrudRepository<Order, Long> {
 }

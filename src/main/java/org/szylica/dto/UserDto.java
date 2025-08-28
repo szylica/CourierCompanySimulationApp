@@ -1,4 +1,4 @@
 package org.szylica.dto;
 
-public class UserDto {
+public record UserDto(Long userId) {
 }

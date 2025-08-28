@@ -1,6 +1,7 @@
 package org.szylica.repository.generic;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface CrudRepository<T, ID> {
@@ -10,5 +11,6 @@ public interface CrudRepository<T, ID> {
     void delete(ID id);
     Optional<T> findById(ID id);
     List<T> findAll();
+    List<T> findAllWhere(Map<String, String> filters, String... separators);
 
 }

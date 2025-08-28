@@ -1,4 +1,7 @@
 package org.szylica.repository;
 
-public interface ParcelRepository {
+import org.szylica.model.parcel.Parcel;
+import org.szylica.repository.generic.CrudRepository;
+
+public interface ParcelRepository extends CrudRepository<Parcel, Long> {
 }

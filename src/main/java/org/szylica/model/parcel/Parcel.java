@@ -1,9 +1,11 @@
 package org.szylica.model.parcel;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.szylica.model.parcel.enums.ParcelStatus;
 
 @RequiredArgsConstructor
+@Builder
 public class Parcel {
     private final Long id;
     private final Long lockerId;
