@@ -2,6 +2,7 @@ package org.szylica.repository.impl;
 
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
+import org.szylica.mappers.LockerMapper;
 import org.szylica.model.locker.Locker;
 import org.szylica.model.locker.enums.LockerSize;
 import org.szylica.repository.LockerRepository;
@@ -18,7 +19,7 @@ public class LockerRepositoryImpl extends AbstractRepository<Locker, Long> imple
 
     @Override
     protected void registerMappers() {
-
+        jdbi.registerRowMapper(Locker.class, new LockerMapper());
     }
 
     @Override

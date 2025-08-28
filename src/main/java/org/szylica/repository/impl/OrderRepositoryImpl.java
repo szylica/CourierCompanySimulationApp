@@ -2,6 +2,7 @@ package org.szylica.repository.impl;
 
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
+import org.szylica.mappers.OrderMapper;
 import org.szylica.model.Order;
 import org.szylica.repository.OrderRepository;
 import org.szylica.repository.generic.AbstractRepository;
@@ -16,7 +17,7 @@ public class OrderRepositoryImpl extends AbstractRepository<Order, Long> impleme
 
     @Override
     protected void registerMappers() {
-
+        jdbi.registerRowMapper(Order.class, new OrderMapper());
     }
 
     @Override

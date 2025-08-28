@@ -3,6 +3,7 @@ package org.szylica.repository.impl;
 import lombok.RequiredArgsConstructor;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
+import org.szylica.mappers.UserMapper;
 import org.szylica.model.User;
 import org.szylica.repository.UserRepository;
 import org.szylica.repository.generic.AbstractRepository;
@@ -17,7 +18,7 @@ public class UserRepositoryImpl extends AbstractRepository<User, Long> implement
 
     @Override
     protected void registerMappers() {
-        jdbi.registerRowMapper()
+        jdbi.registerRowMapper(User.class, new UserMapper());
     }
 
     @Override

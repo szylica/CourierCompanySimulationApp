@@ -22,6 +22,7 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         this.entityClass = (Class<T>) getGenericTypeClass();
         this.tableName = English.plural(entityClass.getSimpleName().toLowerCase());
         this.customColumnNames = getFieldColumnMap();
+        registerMappers();
     }
 
     protected abstract void registerMappers();
