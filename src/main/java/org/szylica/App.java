@@ -4,6 +4,7 @@ import org.jdbi.v3.core.Jdbi;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.Environment;
 import org.szylica.config.AppBeansConfig;
+import org.szylica.dto.ParcelMachineDto;
 import org.szylica.dto.UserDto;
 import org.szylica.model.Order;
 import org.szylica.model.ParcelMachine;
@@ -46,9 +47,12 @@ public class App
 //        orderRepository.findAllWhere(Map.of("parcelId", "2", "userId", "5"), "AND");
 
         var pm = new ParcelMachine(1L, "Paczkomat WAW001", 52.22977, 21.01178, "Warszawa, ul. Marszałkowska 1");
+        var pmDto = new ParcelMachineDto(1L);
 
         var uDto = new UserDto(1L);
-        courierService.sendPackage(uDto, pm, LockerSize.SMALL);
+        var order1 = courierService.registerOrder(uDto);
+        var parcel = courierService.registerParcel(order1, 9.0,9.0,9.0);
+        courierService.setUpParcel(parcel, pmDto);
 
     }
 }

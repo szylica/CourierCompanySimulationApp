@@ -1,4 +1,4 @@
 package org.szylica.dto;
 
-public record ParcelMachineDto() {
+public record ParcelMachineDto(Long parcelMachineId) {
 }

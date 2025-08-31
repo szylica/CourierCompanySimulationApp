@@ -1,11 +1,13 @@
-package org.szylica.model;
+package org.szylica.data.model;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @RequiredArgsConstructor
 @Builder
+@ToString
 public class User {
     private final Long id;
     private final String firstName;

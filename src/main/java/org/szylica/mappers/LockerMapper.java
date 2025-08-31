@@ -15,8 +15,8 @@ public class LockerMapper implements RowMapper<Locker> {
         return Locker.builder()
                 .id(rs.getLong("id"))
                 .parcelMachineId(rs.getLong("parcel_machine_id"))
-                .size(LockerSize.valueOf(rs.getString("size")))
-                .status(LockerStatus.valueOf(rs.getString("status")))
+                .size(LockerSize.valueOf(rs.getString("size").toUpperCase()))
+                .status(LockerStatus.valueOf(rs.getString("status").toUpperCase()))
                 .build();
     }
 }

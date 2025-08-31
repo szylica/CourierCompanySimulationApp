@@ -1,4 +1,4 @@
-package org.szylica.model;
+package org.szylica.data.model;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -15,4 +15,14 @@ public class Order {
     private final Long parcelId;
     private final LocalDateTime createdAt;
     private final LocalDateTime deliveredAt;
+
+    public Order withParcelId(Long parcelId) {
+        return Order.builder()
+                .id(id)
+                .userId(userId)
+                .parcelId(parcelId)
+                .createdAt(createdAt)
+                .deliveredAt(deliveredAt)
+                .build();
+    }
 }

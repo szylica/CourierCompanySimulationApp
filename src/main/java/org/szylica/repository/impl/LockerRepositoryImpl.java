@@ -36,7 +36,7 @@ public class LockerRepositoryImpl extends AbstractRepository<Locker, Long> imple
     @Override
     public List<Locker> getAllLockersFromParcelMachine(Long parcelMachineId) {
 
-        var sql = "SELECT * FROM LOCKERS";
+        var sql = "SELECT * FROM lockers";
 
         return jdbi.withHandle(handle -> handle.createQuery(sql)
                 .mapTo(Locker.class)
@@ -46,7 +46,7 @@ public class LockerRepositoryImpl extends AbstractRepository<Locker, Long> imple
     @Override
     public List<Locker> isSizeLockerFree(LockerSize size, Long parcelMachineId) {
 
-        var sql = "SELECT * FROM LOCKERS WHERE SIZE = :size";
+        var sql = "SELECT * FROM lockers WHERE SIZE = :size";
 
         return jdbi.withHandle(handle -> handle.createQuery(sql)
                 .bind("size", size)

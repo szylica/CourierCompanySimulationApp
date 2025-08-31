@@ -1,5 +1,7 @@
-package org.szylica.model.locker.enums;
+package org.szylica.data.model.locker.enums;
 
 public enum LockerSize {
-    SMALL,  MEDIUM, LARGE;
+    SMALL, // 10x10x10
+    MEDIUM, //20x20x20
+    LARGE; // 30x30x30
 }

@@ -1,4 +1,4 @@
-package org.szylica.model;
+package org.szylica.data.model;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,7 @@
-package org.szylica.model.parcel.enums;
+package org.szylica.data.model.parcel.enums;
 
 public enum ParcelStatus {
+    PENDING,
+    IN_TRANSIT,
+    DELIVERED
 }
