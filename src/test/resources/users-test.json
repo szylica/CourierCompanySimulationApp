@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Jan",
+      "lastName": "Kowalski",
+      "email": "jan.kowalski@example.com",
+      "phone": "+48 600 100 200",
+      "latitude": 52.2297,
+      "longitude": 21.0122
+    },
+    {
+      "id": 2,
+      "firstName": "Anna",
+      "lastName": "Nowak",
+      "email": "anna.nowak@example.com",
+      "phone": "+48 601 200 300",
+      "latitude": 50.0647,
+      "longitude": 19.9450
+    },
+    {
+      "id": 3,
+      "firstName": "Piotr",
+      "lastName": "Wiśniewski",
+      "email": "piotr.wisniewski@example.com",
+      "phone": "+48 602 300 400",
+      "latitude": 54.3520,
+      "longitude": 18.6466
+    },
+    {
+      "id": 4,
+      "firstName": "Katarzyna",
+      "lastName": "Wójcik",
+      "email": "katarzyna.wojcik@example.com",
+      "phone": "+48 603 400 500",
+      "latitude": 51.1079,
+      "longitude": 17.0385
+    },
+    {
+      "id": 5,
+      "firstName": "Marek",
+      "lastName": "Lewandowski",
+      "email": "marek.lewandowski@example.com",
+      "phone": "+48 604 500 600",
+      "latitude": 53.1325,
+      "longitude": 23.1688
+    }
+  ]
+}

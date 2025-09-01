@@ -1,0 +1,47 @@
+<users>
+    <user>
+        <id>1</id>
+        <firstName>Jan</firstName>
+        <lastName>Kowalski</lastName>
+        <email>jan.kowalski@example.com</email>
+        <phone>+48 600 100 200</phone>
+        <latitude>52.2297</latitude>
+        <longitude>21.0122</longitude>
+    </user>
+    <user>
+        <id>2</id>
+        <firstName>Anna</firstName>
+        <lastName>Nowak</lastName>
+        <email>anna.nowak@example.com</email>
+        <phone>+48 601 200 300</phone>
+        <latitude>50.0647</latitude>
+        <longitude>19.9450</longitude>
+    </user>
+    <user>
+        <id>3</id>
+        <firstName>Piotr</firstName>
+        <lastName>Wiśniewski</lastName>
+        <email>piotr.wisniewski@example.com</email>
+        <phone>+48 602 300 400</phone>
+        <latitude>54.3520</latitude>
+        <longitude>18.6466</longitude>
+    </user>
+    <user>
+        <id>4</id>
+        <firstName>Katarzyna</firstName>
+        <lastName>Wójcik</lastName>
+        <email>katarzyna.wojcik@example.com</email>
+        <phone>+48 603 400 500</phone>
+        <latitude>51.1079</latitude>
+        <longitude>17.0385</longitude>
+    </user>
+    <user>
+        <id>5</id>
+        <firstName>Marek</firstName>
+        <lastName>Lewandowski</lastName>
+        <email>marek.lewandowski@example.com</email>
+        <phone>+48 604 500 600</phone>
+        <latitude>53.1325</latitude>
+        <longitude>23.1688</longitude>
+    </user>
+</users>
