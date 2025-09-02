@@ -2,19 +2,20 @@ package org.szylica.model;
 
 import lombok.*;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @ToString
 @EqualsAndHashCode
 public class User {
     @Getter
-    private final Long id;
-    private final String firstName;
-    private final String lastName;
-    private final String email;
-    private final String phone;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
     @Getter
-    private final Double latitude;
+    private Double latitude;
     @Getter
-    private final Double longitude;
+    private Double longitude;
 }

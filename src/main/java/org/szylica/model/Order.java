@@ -1,20 +1,21 @@
 package org.szylica.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Builder
 public class Order {
     @Getter
-    private final Long id;
-    private final Long userId;
-    private final Long parcelId;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime deliveredAt;
+    private Long id;
+    private Long userId;
+    private Long parcelId;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime deliveredAt;
 
     public Order withParcelId(Long parcelId) {
         return Order.builder()

@@ -30,7 +30,7 @@ public class AppBeansConfig {
         );
 
         var parcelMachinesTableSql = new TableBuilder("parcel_machines")
-                .addColumn("id", "integer", "primary key", "auto_increment")
+                .addColumn("id", "bigint", "primary key", "auto_increment")
                 .addColumn("name", "varchar(255)", "not null")
                 .addColumn("latitude", "float", "not null")
                 .addColumn("longitude", "float", "not null")
@@ -38,10 +38,10 @@ public class AppBeansConfig {
                 .buildSql();
 
         var lockersTableSql = new TableBuilder("lockers")
-                .addColumn("id", "integer", "primary key", "auto_increment")
+                .addColumn("id", "bigint", "primary key", "auto_increment")
                 .addColumn("size", "varchar(50)", "not null")
                 .addColumn("status", "varchar(50)", "not null")
-                .addColumn("parcel_machine_id", "integer")
+                .addColumn("parcel_machine_id", "bigint")
                 .addForeignKeyConstraint(
                         "parcel_machine_id",
                         "parcel_machines",
@@ -51,12 +51,12 @@ public class AppBeansConfig {
                 .buildSql();
 
         var parcelsTableSql = new TableBuilder("parcels")
-                .addColumn("id", "integer", "primary key", "auto_increment")
+                .addColumn("id", "bigint", "primary key", "auto_increment")
                 .addColumn("width", "int", "not null")
                 .addColumn("height", "int", "not null")
                 .addColumn("depth", "int", "not null")
                 .addColumn("status", "varchar(50)", "not null")
-                .addColumn("locker_id", "integer")
+                .addColumn("locker_id", "bigint")
                 .addForeignKeyConstraint(
                         "locker_id",
                         "lockers",
@@ -66,11 +66,11 @@ public class AppBeansConfig {
                 .buildSql();
 
         var ordersTableSql = new TableBuilder("orders")
-                .addColumn("id", "integer", "primary key", "auto_increment")
-                .addColumn("created_at", "datetime", "not null")
-                .addColumn("delivered_at", "datetime")
-                .addColumn("user_id", "int", "not null")
-                .addColumn("parcel_id", "int")
+                .addColumn("id", "bigint", "primary key", "auto_increment")
+                .addColumn("created_at", "timestamp", "not null")
+                .addColumn("delivered_at", "timestamp")
+                .addColumn("user_id", "bigint", "not null")
+                .addColumn("parcel_id", "bigint")
                 .addForeignKeyConstraint(
                         "parcel_id",
                         "parcels",

@@ -19,6 +19,7 @@ import org.szylica.database.repository.impl.LockerRepositoryImpl;
 import org.szylica.service.CourierService;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -46,14 +47,14 @@ public class CourierServiceImpl implements CourierService {
     public Order registerOrder(UserDto sendingUser) {
         var order = Order.builder()
                 .userId(sendingUser.userId())
-                .createdAt(LocalDateTime.now())
+                .createdAt(ZonedDateTime.now())
                 .build();
 
         return orderRepositoryImpl.insert(order);
     }
 
     @Override
-    public Parcel registerParcel(Order order, Double width, Double height, Double depth) {
+    public Parcel registerParcel(Order order, Integer width, Integer height, Integer depth) {
 
         var parcel = Parcel.builder()
                 .status(ParcelStatus.PENDING)

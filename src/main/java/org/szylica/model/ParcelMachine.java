@@ -1,17 +1,18 @@
 package org.szylica.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Builder
 public class ParcelMachine {
-    private final Long id;
-    private final String name;
+    private Long id;
+    private String name;
     @Getter
-    private final Double latitude;
+    private double latitude;
     @Getter
-    private final Double longitude;
-    private final String address;
+    private double longitude;
+    private String address;
 }

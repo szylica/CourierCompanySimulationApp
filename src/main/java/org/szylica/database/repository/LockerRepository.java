@@ -2,7 +2,7 @@ package org.szylica.database.repository;
 
 import org.szylica.model.locker.Locker;
 import org.szylica.model.locker.enums.LockerSize;
-import org.szylica.database.repository.db.generic.CrudRepository;
+import org.szylica.database.repository.generic.CrudRepository;
 
 import java.util.List;
 

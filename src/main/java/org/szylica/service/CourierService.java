@@ -11,7 +11,7 @@ public interface CourierService {
 
     List<ParcelMachine> findClosestParcelMachinesFromUser(UserDto userDto);
     Order registerOrder(UserDto sendingUser);
-    Parcel registerParcel(Order order, Double width, Double height, Double depth);
+    Parcel registerParcel(Order order, Integer width, Integer height, Integer depth);
 
 
 }

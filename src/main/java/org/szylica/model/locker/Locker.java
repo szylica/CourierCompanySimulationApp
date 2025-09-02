@@ -1,19 +1,19 @@
 package org.szylica.model.locker;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.szylica.model.locker.enums.LockerSize;
 import org.szylica.model.locker.enums.LockerStatus;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Builder
 public class Locker {
     @Getter
-    private final Long id;
-    private final Long parcelMachineId;
-    private final LockerSize size;
-    private final LockerStatus status;
+    private Long id;
+    private Long parcelMachineId;
+    private LockerSize size;
+    private LockerStatus status;
 
     public boolean isLockerFree(){
         return status.equals(LockerStatus.FREE);

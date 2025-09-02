@@ -4,20 +4,20 @@ import lombok.*;
 import org.szylica.model.locker.enums.LockerSize;
 import org.szylica.model.parcel.enums.ParcelStatus;
 
-@RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Builder
 public class Parcel {
     @Getter
-    private final Long id;
+    private Long id;
     private Long lockerId;
-    private final double width;
-    private final double height;
-    private final double depth;
-    private final ParcelStatus status;
+    private Integer width;
+    private Integer height;
+    private Integer depth;
+    private ParcelStatus status;
 
-    public static LockerSize calculateLockerSize(Double width, Double height, Double depth) {
+    public static LockerSize calculateLockerSize(Integer width, Integer height, Integer depth) {
         if(width <= 10 && height <= 10 && depth <= 10){
             return LockerSize.SMALL;
         }

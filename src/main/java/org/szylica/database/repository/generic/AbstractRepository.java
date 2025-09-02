@@ -1,5 +1,6 @@
-package org.szylica.database.repository.db.generic;
+package org.szylica.database.repository.generic;
 
+import com.google.common.base.CaseFormat;
 import org.atteo.evo.inflector.English;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.Update;
@@ -7,6 +8,8 @@ import org.jdbi.v3.core.statement.Update;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,9 +21,12 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
 
     @SuppressWarnings("unchecked")
     protected AbstractRepository(Jdbi jdbi) {
-        this.jdbi  = jdbi;
+        this.jdbi = jdbi;
         this.entityClass = (Class<T>) getGenericTypeClass();
-        this.tableName = English.plural(entityClass.getSimpleName().toLowerCase());
+        this.tableName = English.plural(
+                CaseFormat.UPPER_CAMEL.to(
+                        CaseFormat.LOWER_UNDERSCORE,
+                        entityClass.getSimpleName()));
         this.customColumnNames = getFieldColumnMap();
         registerMappers();
     }
@@ -94,11 +100,11 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         var sql = "SELECT * FROM %s WHERE id = :id".formatted(tableName);
 
         return jdbi.withHandle(handle ->
-            handle.createQuery(sql)
-                    .bind("id", id)
-                    .mapTo(entityClass)
-                    .findFirst()
-                );
+                handle.createQuery(sql)
+                        .bind("id", id)
+                        .mapTo(entityClass)
+                        .findFirst()
+        );
 
     }
 
@@ -107,35 +113,37 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         var sql = "SELECT * FROM %s".formatted(tableName);
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
-                        .mapToBean(entityClass)
+                        .mapTo(entityClass)
                         .list());
 
     }
 
     @Override
     public List<T> findAllWhere(Map<String, String> filters, String... separators) {
-        if(filters == null ) {
+        if (filters == null) {
             throw new IllegalArgumentException("filters cannot be null");
         }
 
-        if(filters.size()-1 != separators.length) {
+        if (filters.size() - 1 != separators.length) {
             throw new IllegalArgumentException("wrong number of separators");
         }
 
         StringBuilder where = new StringBuilder();
 
         var i = 0;
-        for(Map.Entry<String, String> entry : filters.entrySet()) {
+        for (Map.Entry<String, String> entry : filters.entrySet()) {
             where.append("%s = %s ".formatted(getColumnName(entry.getKey()), entry.getValue()));
-            if(i < separators.length) {
+            if (i < separators.length) {
                 where.append(separators[i]).append(" ");
             }
             i++;
         }
 
-        var sql = "SELECT * FROM %s WHERE %s".formatted(tableName,  where.toString());
-        System.out.println(sql);
-        return null;
+        var sql = "SELECT * FROM %s WHERE %s;".formatted(tableName, where.toString());
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapTo(entityClass)
+                        .list());
     }
 
     private Class<?> getGenericTypeClass() {
@@ -146,40 +154,40 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         throw new IllegalArgumentException("Class does not have a generic superclass");
     }
 
-    private List<String> getFieldsWithoutId(){
+    private List<String> getFieldsWithoutId() {
         return Arrays.stream(entityClass.getDeclaredFields())
                 .map(Field::getName)
                 .filter(field -> !field.equalsIgnoreCase("id"))
                 .toList();
     }
 
-    private List<String> getNonNullFields(T entity){
+    private List<String> getNonNullFields(T entity) {
         return getFieldsWithoutId().stream()
                 .filter(field -> {
-                    try{
+                    try {
                         var column = entityClass.getDeclaredField(field);
                         column.setAccessible(true);
                         return column.get(entity) != null;
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         throw new IllegalStateException(e);
                     }
                 })
                 .toList();
     }
 
-    private String getPlaceholders(List<String> fields){
+    private String getPlaceholders(List<String> fields) {
         return fields.stream()
                 .map(field -> ":" + field)
                 .collect(Collectors.joining(", "));
     }
 
-    private String getColumnNames(List<String> fields){
+    private String getColumnNames(List<String> fields) {
         return fields.stream()
                 .map(this::getColumnName)
                 .collect(Collectors.joining(", "));
     }
 
-    private String getColumnName(String field){
+    private String getColumnName(String field) {
         return customColumnNames.getOrDefault(field, field);
     }
 
@@ -199,7 +207,7 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
                 .map(field -> "%s = %s".formatted(
                         getColumnName(field),
                         ":" + field
-                        ))
+                ))
                 .collect(Collectors.joining(", "));
 
         var idStr = "id = " + id;
@@ -207,23 +215,24 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         return "UPDATE %s SET %s WHERE %s".formatted(tableName, set, idStr);
     }
 
-    private void bindFieldsToUpdate(T entity, Update update, List<String> fields){
-        for(String fieldName : fields){
-            try{
+    private void bindFieldsToUpdate(T entity, Update update, List<String> fields) {
+        for (String fieldName : fields) {
+            try {
                 var field = entityClass.getDeclaredField(fieldName);
                 field.setAccessible(true);
                 var value = field.get(entity);
-                if (value != null){
-                    update.bind(fieldName, value);
+                if (value != null) {
+                    if (value instanceof ZonedDateTime zonedDateTime) {
+                        update.bind(fieldName, zonedDateTime.withZoneSameInstant(ZoneOffset.UTC));
+                    } else {
+                        update.bind(fieldName, value);
+                    }
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     }
-
-
-
 
 
 }
