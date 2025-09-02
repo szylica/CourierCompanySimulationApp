@@ -1,4 +1,4 @@
-package org.szylica.mappers;
+package org.szylica.database.mappers;
 
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
@@ -7,6 +7,7 @@ import org.szylica.model.Order;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class OrderMapper implements RowMapper<Order> {
     @Override
@@ -15,8 +16,8 @@ public class OrderMapper implements RowMapper<Order> {
                 .id(rs.getLong("id"))
                 .userId(rs.getLong("user_id"))
                 .parcelId(rs.getLong("parcel_id"))
-                .createdAt(LocalDateTime.now())
-                .deliveredAt(LocalDateTime.now())
+                .createdAt(ZonedDateTime.now())
+                .deliveredAt(ZonedDateTime.now())
                 .build();
     }
 }

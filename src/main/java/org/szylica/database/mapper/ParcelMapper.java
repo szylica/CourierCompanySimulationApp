@@ -1,4 +1,4 @@
-package org.szylica.mappers;
+package org.szylica.database.mappers;
 
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
@@ -14,9 +14,9 @@ public class ParcelMapper implements RowMapper<Parcel> {
         return Parcel.builder()
                 .id(rs.getLong("id"))
                 .lockerId(rs.getLong("locker_id"))
-                .width(rs.getDouble("width"))
-                .height(rs.getDouble("height"))
-                .depth(rs.getDouble("depth"))
+                .width(rs.getInt("width"))
+                .height(rs.getInt("height"))
+                .depth(rs.getInt("depth"))
                 .status(ParcelStatus.valueOf(rs.getString("status")))
                 .build();
     }

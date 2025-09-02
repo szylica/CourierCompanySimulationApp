@@ -1,4 +1,4 @@
-package org.szylica.mappers;
+package org.szylica.database.mappers;
 
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
