@@ -1,9 +1,7 @@
 package org.szylica.repository;
 
 import org.szylica.model.ParcelMachine;
-import org.szylica.model.locker.Locker;
-import org.szylica.model.locker.enums.LockerSize;
-import org.szylica.repository.generic.CrudRepository;
+import org.szylica.repository.db.generic.CrudRepository;
 
 import java.util.List;
 

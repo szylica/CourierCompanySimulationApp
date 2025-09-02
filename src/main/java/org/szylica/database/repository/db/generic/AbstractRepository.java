@@ -1,4 +1,4 @@
-package org.szylica.repository.generic;
+package org.szylica.repository.db.generic;
 
 import org.atteo.evo.inflector.English;
 import org.jdbi.v3.core.Jdbi;

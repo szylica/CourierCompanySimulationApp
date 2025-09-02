@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.szylica.mappers.ParcelMapper;
 import org.szylica.model.parcel.Parcel;
 import org.szylica.repository.ParcelRepository;
-import org.szylica.repository.generic.AbstractRepository;
+import org.szylica.repository.db.generic.AbstractRepository;
 
 import java.util.Map;
 

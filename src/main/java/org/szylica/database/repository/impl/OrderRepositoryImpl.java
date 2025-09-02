@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.szylica.mappers.OrderMapper;
 import org.szylica.model.Order;
 import org.szylica.repository.OrderRepository;
-import org.szylica.repository.generic.AbstractRepository;
+import org.szylica.repository.db.generic.AbstractRepository;
 
 import java.util.Map;
 

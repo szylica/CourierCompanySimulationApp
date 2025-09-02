@@ -1,4 +1,4 @@
-package org.szylica.repository.generic;
+package org.szylica.repository.db.generic;
 
 import java.util.List;
 import java.util.Map;

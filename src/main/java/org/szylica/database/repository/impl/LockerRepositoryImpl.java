@@ -6,7 +6,7 @@ import org.szylica.mappers.LockerMapper;
 import org.szylica.model.locker.Locker;
 import org.szylica.model.locker.enums.LockerSize;
 import org.szylica.repository.LockerRepository;
-import org.szylica.repository.generic.AbstractRepository;
+import org.szylica.repository.db.generic.AbstractRepository;
 
 import java.util.List;
 import java.util.Map;

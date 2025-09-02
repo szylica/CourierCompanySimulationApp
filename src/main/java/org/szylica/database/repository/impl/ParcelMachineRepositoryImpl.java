@@ -2,12 +2,11 @@ package org.szylica.repository.impl;
 
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
-import org.szylica.data.NearestPoint;
+import org.szylica.files.NearestPoint;
 import org.szylica.mappers.ParcelMachineMapper;
 import org.szylica.model.ParcelMachine;
-import org.szylica.model.locker.enums.LockerSize;
 import org.szylica.repository.ParcelMachineRepository;
-import org.szylica.repository.generic.AbstractRepository;
+import org.szylica.repository.db.generic.AbstractRepository;
 
 import java.util.List;
 import java.util.Map;
