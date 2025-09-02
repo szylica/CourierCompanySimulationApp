@@ -1,8 +1,8 @@
-package org.szylica.data.json.deserializer.generic;
+package org.szylica.files.json.deserializer.generic;
 
 import lombok.RequiredArgsConstructor;
-import org.szylica.data.json.converter.JsonConverter;
-import org.szylica.data.json.deserializer.JsonDeserializer;
+import org.szylica.files.json.converter.JsonConverter;
+import org.szylica.files.json.deserializer.JsonDeserializer;
 
 import java.io.FileReader;
 import java.io.IOException;

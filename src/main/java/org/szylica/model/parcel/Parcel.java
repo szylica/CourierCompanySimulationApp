@@ -1,8 +1,8 @@
-package org.szylica.data.model.parcel;
+package org.szylica.model.parcel;
 
 import lombok.*;
-import org.szylica.data.model.locker.enums.LockerSize;
-import org.szylica.data.model.parcel.enums.ParcelStatus;
+import org.szylica.model.locker.enums.LockerSize;
+import org.szylica.model.parcel.enums.ParcelStatus;
 
 @RequiredArgsConstructor
 @AllArgsConstructor

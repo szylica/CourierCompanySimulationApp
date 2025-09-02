@@ -1,4 +1,4 @@
-package org.szylica.data.validator;
+package org.szylica.files.validator;
 
 import java.util.Map;
 

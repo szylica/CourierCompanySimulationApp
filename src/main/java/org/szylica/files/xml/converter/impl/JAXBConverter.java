@@ -1,11 +1,11 @@
-package org.szylica.data.xml.converter.impl;
+package org.szylica.files.xml.converter.impl;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
-import org.szylica.data.xml.converter.XmlConverter;
+import org.szylica.files.xml.converter.XmlConverter;
 
 import java.io.FileReader;
 import java.io.FileWriter;

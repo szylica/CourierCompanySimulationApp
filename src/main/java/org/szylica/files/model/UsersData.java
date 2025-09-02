@@ -1,8 +1,7 @@
-package org.szylica.data.model;
+package org.szylica.files.model;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import lombok.*;
 
 import java.util.List;
 import java.util.Objects;

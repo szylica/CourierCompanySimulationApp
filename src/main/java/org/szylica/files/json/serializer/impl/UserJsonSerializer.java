@@ -1,8 +1,8 @@
-package org.szylica.data.json.serializer.impl;
+package org.szylica.files.json.serializer.impl;
 
 import org.springframework.stereotype.Component;
-import org.szylica.data.json.converter.JsonConverter;
-import org.szylica.data.json.serializer.generic.AbstractJsonSerializer;
+import org.szylica.files.json.converter.JsonConverter;
+import org.szylica.files.json.serializer.generic.AbstractJsonSerializer;
 import org.szylica.model.User;
 
 @Component

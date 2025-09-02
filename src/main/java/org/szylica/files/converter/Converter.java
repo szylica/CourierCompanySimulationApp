@@ -1,4 +1,4 @@
-package org.szylica.data.converter;
+package org.szylica.files.converter;
 
 public interface Converter<T, U> {
 

@@ -1,4 +1,4 @@
-package org.szylica.model.builder;
+package org.szylica.database.builder;
 
 import lombok.extern.slf4j.Slf4j;
 

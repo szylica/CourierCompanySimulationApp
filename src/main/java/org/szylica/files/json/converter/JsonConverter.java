@@ -1,4 +1,4 @@
-package org.szylica.data.json.converter;
+package org.szylica.files.json.converter;
 
 import java.io.FileReader;
 import java.io.FileWriter;

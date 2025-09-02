@@ -1,4 +1,4 @@
-package org.szylica.data.xml.converter;
+package org.szylica.files.xml.converter;
 
 import java.io.FileReader;
 import java.io.FileWriter;

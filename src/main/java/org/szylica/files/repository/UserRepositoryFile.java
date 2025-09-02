@@ -3,8 +3,8 @@ package org.szylica.files.repository;
 import org.szylica.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface UserRepository {
-    List<User> getUsers();
-    List<User> loadUsers();
+public interface UserRepositoryFile {
+    Optional<User> findById(Long id);
 }

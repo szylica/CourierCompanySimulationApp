@@ -1,12 +1,12 @@
-package org.szylica.repository.impl;
+package org.szylica.database.repository.impl;
 
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 import org.szylica.mappers.LockerMapper;
 import org.szylica.model.locker.Locker;
 import org.szylica.model.locker.enums.LockerSize;
-import org.szylica.repository.LockerRepository;
-import org.szylica.repository.db.generic.AbstractRepository;
+import org.szylica.database.repository.LockerRepository;
+import org.szylica.database.repository.db.generic.AbstractRepository;
 
 import java.util.List;
 import java.util.Map;

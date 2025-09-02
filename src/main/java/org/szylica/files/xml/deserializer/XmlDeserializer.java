@@ -1,4 +1,4 @@
-package org.szylica.data.xml.deserializer;
+package org.szylica.files.xml.deserializer;
 
 public interface XmlDeserializer<T> {
     T deserialize(String xml);

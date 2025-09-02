@@ -1,9 +1,9 @@
-package org.szylica.data.json.converter.impl;
+package org.szylica.files.json.converter.impl;
 
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.szylica.data.json.converter.JsonConverter;
+import org.szylica.files.json.converter.JsonConverter;
 
 import java.io.FileReader;
 import java.io.FileWriter;

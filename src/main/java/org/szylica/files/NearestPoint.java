@@ -1,4 +1,4 @@
-package org.szylica.data;
+package org.szylica.files;
 
 public class NearestPoint {
 

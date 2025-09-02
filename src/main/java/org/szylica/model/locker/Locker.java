@@ -1,10 +1,10 @@
-package org.szylica.data.model.locker;
+package org.szylica.model.locker;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.szylica.data.model.locker.enums.LockerSize;
-import org.szylica.data.model.locker.enums.LockerStatus;
+import org.szylica.model.locker.enums.LockerSize;
+import org.szylica.model.locker.enums.LockerStatus;
 
 @RequiredArgsConstructor
 @Builder

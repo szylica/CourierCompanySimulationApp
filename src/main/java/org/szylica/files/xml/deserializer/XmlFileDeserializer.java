@@ -1,4 +1,4 @@
-package org.szylica.data.xml.deserializer;
+package org.szylica.files.xml.deserializer;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

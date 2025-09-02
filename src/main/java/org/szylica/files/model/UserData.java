@@ -1,11 +1,7 @@
-package org.szylica.data.model;
+package org.szylica.files.model;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.szylica.model.User;
 
 import java.util.Objects;
@@ -13,13 +9,13 @@ import java.util.Objects;
 @XmlRootElement(name = "user")
 public class UserData {
 
-    Long id;
+    long id;
     String firstName;
     String lastName;
     String email;
     String phone;
-    Double latitude;
-    Double longitude;
+    double latitude;
+    double longitude;
 
     public User toUser(){
         return User.builder()
@@ -119,14 +115,7 @@ public class UserData {
 
     @Override
     public int hashCode() {
-        int result = Objects.hashCode(id);
-        result = 31 * result + Objects.hashCode(firstName);
-        result = 31 * result + Objects.hashCode(lastName);
-        result = 31 * result + Objects.hashCode(email);
-        result = 31 * result + Objects.hashCode(phone);
-        result = 31 * result + Objects.hashCode(latitude);
-        result = 31 * result + Objects.hashCode(longitude);
-        return result;
+        return Objects.hash(id, firstName, lastName, email, phone, latitude, longitude);
     }
 
     @Override

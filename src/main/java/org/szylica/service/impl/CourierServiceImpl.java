@@ -5,18 +5,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.szylica.dto.ParcelMachineDto;
 import org.szylica.dto.UserDto;
+import org.szylica.files.repository.UserRepositoryFile;
 import org.szylica.model.Order;
 import org.szylica.model.ParcelMachine;
 import org.szylica.model.locker.Locker;
-import org.szylica.model.locker.enums.LockerSize;
 import org.szylica.model.locker.enums.LockerStatus;
 import org.szylica.model.parcel.Parcel;
 import org.szylica.model.parcel.enums.ParcelStatus;
-import org.szylica.repository.OrderRepository;
-import org.szylica.repository.ParcelMachineRepository;
-import org.szylica.repository.ParcelRepository;
-import org.szylica.repository.UserRepository;
-import org.szylica.repository.impl.LockerRepositoryImpl;
+import org.szylica.database.repository.OrderRepository;
+import org.szylica.database.repository.ParcelMachineRepository;
+import org.szylica.database.repository.ParcelRepository;
+import org.szylica.database.repository.impl.LockerRepositoryImpl;
 import org.szylica.service.CourierService;
 
 import java.time.LocalDateTime;
@@ -27,7 +26,7 @@ import java.util.List;
 @Slf4j
 public class CourierServiceImpl implements CourierService {
 
-    private final UserRepository userRepositoryImpl;
+    private final UserRepositoryFile userRepositoryFileImpl;
     private final ParcelMachineRepository parcelMachineRepositoryImpl;
     private final OrderRepository orderRepositoryImpl;
     private final ParcelRepository parcelRepositoryImpl;
@@ -36,7 +35,7 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     public List<ParcelMachine> findClosestParcelMachinesFromUser(UserDto userDto) {
-        var user = userRepositoryImpl.findById(userDto.userId());
+        var user = userRepositoryFileImpl.findById(userDto.userId());
 
         return parcelMachineRepositoryImpl.getClosestParcelMachines(
                 user.orElseThrow().getLatitude(),

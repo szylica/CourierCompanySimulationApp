@@ -1,11 +1,11 @@
-package org.szylica.repository.impl;
+package org.szylica.database.repository.impl;
 
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 import org.szylica.mappers.ParcelMapper;
 import org.szylica.model.parcel.Parcel;
-import org.szylica.repository.ParcelRepository;
-import org.szylica.repository.db.generic.AbstractRepository;
+import org.szylica.database.repository.ParcelRepository;
+import org.szylica.database.repository.db.generic.AbstractRepository;
 
 import java.util.Map;
 

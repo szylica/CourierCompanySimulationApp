@@ -1,13 +1,13 @@
-package org.szylica.data.converter.user.impl;
+package org.szylica.files.converter.user.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.szylica.data.converter.user.FileToUsersConverter;
-import org.szylica.data.model.UserData;
-import org.szylica.data.model.UsersData;
-import org.szylica.data.xml.deserializer.XmlFileDeserializer;
+import org.szylica.files.converter.user.FileToUsersConverter;
+import org.szylica.files.model.UserData;
+import org.szylica.files.model.UsersData;
+import org.szylica.files.xml.deserializer.XmlFileDeserializer;
 import org.szylica.model.User;
-import org.szylica.data.validator.Validator;
+import org.szylica.files.validator.Validator;
 
 import java.nio.file.Paths;
 
