@@ -7,6 +7,7 @@ import org.szylica.model.locker.Locker;
 import org.szylica.model.locker.enums.LockerSize;
 import org.szylica.database.repository.LockerRepository;
 import org.szylica.database.repository.generic.AbstractRepository;
+import org.szylica.model.locker.enums.LockerStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -44,14 +45,22 @@ public class LockerRepositoryImpl extends AbstractRepository<Locker, Long> imple
     }
 
     @Override
-    public List<Locker> isSizeLockerFree(LockerSize size, Long parcelMachineId) {
+    public List<Locker> getAllFreeLockersInSizeFromParcelMachine(LockerSize size, Long parcelMachineId) {
 
-        var sql = "SELECT * FROM lockers WHERE SIZE = :size";
+        return findAllWhere(Map.of(
+                "size", size.name(),
+                "parcel_machine_id", parcelMachineId.toString(),
+                "status", "FREE"),
+                "AND", "AND");
+    }
 
-        return jdbi.withHandle(handle -> handle.createQuery(sql)
-                .bind("size", size)
-                .mapTo(Locker.class)
-                .list());
+    @Override
+    public boolean updateLockerStatus(Long lockerId, LockerStatus lockerStatus) {
+        var locker = findById(lockerId);
+        if (locker.isPresent()) {
+            return update(lockerId, locker.get()) > 0;
+        }
+        throw new IllegalStateException("Locker with id " + lockerId + " not found");
     }
 
 

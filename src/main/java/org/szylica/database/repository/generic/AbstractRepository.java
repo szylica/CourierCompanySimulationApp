@@ -64,7 +64,7 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
     }
 
     @Override
-    public void update(ID id, T entity) {
+    public int update(ID id, T entity) {
 
         var nonNullFields = getNonNullFields(entity);
         if (nonNullFields.isEmpty()) {
@@ -73,11 +73,12 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
 
         var sql = createSqlUpdate(nonNullFields, id);
 
-        jdbi.useHandle(handle -> {
-            var update = handle.createUpdate(sql);
-            update.bind("id", id);
+        return jdbi.withHandle(handle -> {
+
+            var update = handle.createUpdate(sql)
+                    .bind("id", id);
             bindFieldsToUpdate(entity, update, nonNullFields);
-            update.execute();
+            return update.execute();
         });
     }
 

@@ -7,6 +7,7 @@ import org.szylica.database.repository.ParcelMachineRepository;
 import org.szylica.files.repository.UserRepositoryFile;
 import org.szylica.model.ParcelMachine;
 import org.szylica.model.locker.enums.LockerSize;
+import org.szylica.model.locker.enums.LockerStatus;
 import org.szylica.service.ParcelService;
 
 import java.util.Optional;
@@ -25,11 +26,21 @@ public class ParcelServiceImpl implements ParcelService {
                 .findById(userId)
                 .orElseThrow(() -> new IllegalStateException("User not found"));
 
-        return null;
+        return parcelMachineRepository.getOneClosestParcelMachineWithLockerAvailable(
+                user.getLatitude(),
+                user.getLongitude(),
+                distanceLimit,
+                lockerSize);
     }
 
     @Override
     public boolean assignLockerToParcel(Long parcelMachineId, LockerSize lockerSize) {
-        return false;
+        var freeLockers = lockerRepository.getAllFreeLockersInSizeFromParcelMachine(lockerSize, parcelMachineId);
+        if(freeLockers.isEmpty()){
+            throw new IllegalStateException("No free lockers in parcel machine with this size");
+        }
+
+        return lockerRepository.updateLockerStatus(freeLockers.getFirst().getId(), LockerStatus.OCCUPIED);
+
     }
 }
