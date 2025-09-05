@@ -10,13 +10,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.szylica.database.builder.TableBuilder;
+import org.szylica.database.mapper.LockerMapper;
+import org.szylica.database.mapper.ParcelMachineMapper;
 import org.szylica.database.repository.ParcelMachineRepository;
 import org.szylica.model.ParcelMachine;
+import org.szylica.model.locker.enums.LockerSize;
+import org.szylica.model.locker.enums.LockerStatus;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
 @Testcontainers(disabledWithoutDocker = true)
 public class ParcelMachineRepositoryImplTest {
@@ -169,6 +174,83 @@ public class ParcelMachineRepositoryImplTest {
         Assertions.assertThat(parcelMachineRepository.findAllWhere(Map.of("id", "1"))).containsExactly(expectedParcelMachine);
     }
 
+    @Test
+    @DisplayName("Find first parcel machine within distance with available locker by size")
+    void test6(){
+
+        double targetLatitude = 21.0122;
+        double targetLongitude = 52.2297;
+        double maxDistance = 10.0;
+        LockerSize lockerSize = LockerSize.SMALL;
+        LockerStatus lockerStatus = LockerStatus.FREE;
+
+        createLockersTableAndInsertData(targetLatitude, targetLongitude, lockerSize, lockerStatus);
+
+        var result = parcelMachineRepository.getOneClosestParcelMachineWithLockerAvailable(
+                targetLatitude, targetLongitude, maxDistance, lockerSize);
+
+        System.out.println(result);
+        Assertions.assertThat(result).isPresent();
+    }
+
+    @Test
+    @DisplayName("No parcel machine found when it is out of range")
+    void test7(){
+
+        double targetLatitude = 21.0122;
+        double targetLongitude = 52.2297;
+        double targetLatitude2 = 22.0122;
+        double targetLongitude2 = 53.2297;
+        double maxDistance = 5.0;
+        LockerSize lockerSize = LockerSize.SMALL;
+        LockerStatus lockerStatus = LockerStatus.FREE;
+
+        createLockersTableAndInsertData(targetLatitude, targetLongitude, lockerSize, lockerStatus);
+
+
+        var result = parcelMachineRepository.getOneClosestParcelMachineWithLockerAvailable(
+                targetLatitude2, targetLongitude2, maxDistance, lockerSize);
+
+        Assertions.assertThat(result).isEmpty();
+    }
+
+    @Test
+    @DisplayName("No parcel machine found when all lockers are occupied")
+    void test8(){
+
+        double targetLatitude = 21.0122;
+        double targetLongitude = 52.2297;
+        double maxDistance = 100.0;
+        LockerSize lockerSize = LockerSize.SMALL;
+        LockerStatus lockerStatus = LockerStatus.OCCUPIED;
+
+        createLockersTableAndInsertData(targetLatitude, targetLongitude, lockerSize, lockerStatus);
+
+
+        var result = parcelMachineRepository.getOneClosestParcelMachineWithLockerAvailable(
+                targetLatitude, targetLongitude, maxDistance, lockerSize);
+
+        Assertions.assertThat(result).isEmpty();
+    }
+
+    @Test
+    @DisplayName("No parcel machine found when there are no lockers of the required size")
+    void test9(){
+
+        double targetLatitude = 21.0122;
+        double targetLongitude = 52.2297;
+        double maxDistance = 10.0;
+        LockerSize lockerSize = LockerSize.SMALL;
+        LockerStatus lockerStatus = LockerStatus.FREE;
+
+        createLockersTableAndInsertData(targetLatitude, targetLongitude, LockerSize.LARGE, lockerStatus);
+
+        var result = parcelMachineRepository.getOneClosestParcelMachineWithLockerAvailable(
+                targetLatitude, targetLongitude, maxDistance, lockerSize);
+
+        Assertions.assertThat(result).isEmpty();
+    }
+
 
     @AfterEach
     void tearDown() {
@@ -187,11 +269,21 @@ public class ParcelMachineRepositoryImplTest {
                     .addColumn("address", "varchar(255)", "not null")
                     .buildSql();
 
+            handle.execute(parcelMachinesTableSql);
+        });
+    }
+
+    void createLockersTableAndInsertData(
+            double latitude,
+            double longitude,
+            LockerSize lockerSize,
+            LockerStatus lockerStatus) {
+        jdbiExtension.getJdbi().useHandle(handle -> {
             var lockersTableSql = new TableBuilder("lockers")
                     .addColumn("id", "bigint", "primary key", "auto_increment")
                     .addColumn("size", "varchar(50)", "not null")
                     .addColumn("status", "varchar(50)", "not null")
-                    .addColumn("parcel_machine_id", "bigint")
+                    .addColumn("parcel_machine_id", "bigint", "not null")
                     .addForeignKeyConstraint(
                             "parcel_machine_id",
                             "parcel_machines",
@@ -199,48 +291,26 @@ public class ParcelMachineRepositoryImplTest {
                             "cascade",
                             "cascade")
                     .buildSql();
-
-            var parcelsTableSql = new TableBuilder("parcels")
-                    .addColumn("id", "bigint", "primary key", "auto_increment")
-                    .addColumn("width", "int", "not null")
-                    .addColumn("height", "int", "not null")
-                    .addColumn("depth", "int", "not null")
-                    .addColumn("status", "varchar(50)", "not null")
-                    .addColumn("locker_id", "bigint")
-                    .addForeignKeyConstraint(
-                            "locker_id",
-                            "lockers",
-                            "id",
-                            "cascade",
-                            "cascade")
-                    .buildSql();
-
-            var ordersTableSql = new TableBuilder("orders")
-                    .addColumn("id", "bigint", "primary key", "auto_increment")
-                    .addColumn("created_at", "timestamp", "not null")
-                    .addColumn("delivered_at", "timestamp")
-                    .addColumn("user_id", "bigint", "not null")
-                    .addColumn("parcel_id", "bigint")
-                    .addForeignKeyConstraint(
-                            "parcel_id",
-                            "parcels",
-                            "id",
-                            "cascade",
-                            "cascade")
-                    .buildSql();
-            handle.execute(parcelMachinesTableSql);
             handle.execute(lockersTableSql);
-            handle.execute(parcelsTableSql);
-            handle.execute(ordersTableSql);
+
+            handle.execute(
+                    "INSERT INTO parcel_machines (name, latitude, longitude, address) VALUES ('PM1', ?, ?, 'Address 1')",
+                    latitude,
+                    longitude
+            );
+            handle.execute(
+                    "INSERT INTO lockers (parcel_machine_id, status, size) VALUES (1, ?, ?)",
+                    lockerStatus.name(),
+                    lockerSize.name()
+            );
         });
     }
 
+
     void dropTables() {
         jdbiExtension.getJdbi().useHandle(handle -> {
-            handle.execute("DROP TABLE orders");
-            handle.execute("DROP TABLE parcels");
-            handle.execute("DROP TABLE lockers");
-            handle.execute("DROP TABLE parcel_machines");
+            handle.execute("DROP TABLE IF EXISTS lockers");
+            handle.execute("DROP TABLE IF EXISTS parcel_machines");
 
         });
     }

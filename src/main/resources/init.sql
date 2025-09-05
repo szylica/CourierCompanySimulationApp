@@ -44,20 +44,20 @@ INSERT INTO parcels (locker_id, status, width, height, depth) VALUES
                                                                   (2, 'in_transit', 38.00, 28.00, 45.00),
                                                                   (6, 'delivered', 55.00, 38.00, 58.00);
 
-CREATE TABLE IF NOT EXISTS users (
-    id integer primary key auto_increment,
-    first_name varchar(100) not null,
-    last_name varchar(100) not null,
-    email varchar(100) not null,
-    phone varchar(15) not null,
-    latitude decimal(10, 10) not null,
-    longitude decimal(10, 10) not null
-    );
-
-INSERT INTO users (first_name, last_name, email, phone, latitude, longitude) VALUES
-                                                                                 ('Jan', 'Kowalski', 'jan.kowalski@example.com', '+48123456789', 52.2300000, 21.0100000),
-                                                                                 ('Anna', 'Nowak', 'anna.nowak@example.com', '+48111222333', 50.0600000, 19.9400000),
-                                                                                 ('Piotr', 'Wiśniewski', 'piotr.wisniewski@example.com', '+48555111222', 54.3500000, 18.6500000);
+# CREATE TABLE IF NOT EXISTS users (
+#     id integer primary key auto_increment,
+#     first_name varchar(100) not null,
+#     last_name varchar(100) not null,
+#     email varchar(100) not null,
+#     phone varchar(15) not null,
+#     latitude decimal(10, 10) not null,
+#     longitude decimal(10, 10) not null
+#     );
+#
+# INSERT INTO users (first_name, last_name, email, phone, latitude, longitude) VALUES
+#                                                                                  ('Jan', 'Kowalski', 'jan.kowalski@example.com', '+48123456789', 52.2300000, 21.0100000),
+#                                                                                  ('Anna', 'Nowak', 'anna.nowak@example.com', '+48111222333', 50.0600000, 19.9400000),
+#                                                                                  ('Piotr', 'Wiśniewski', 'piotr.wisniewski@example.com', '+48555111222', 54.3500000, 18.6500000);
 
 CREATE TABLE IF NOT EXISTS orders (
     id integer primary key auto_increment,
@@ -65,10 +65,11 @@ CREATE TABLE IF NOT EXISTS orders (
     parcel_id integer,
     created_at varchar(100),
     delivered_at varchar(100),
-    foreign key(user_id) references users(id) on delete cascade on update cascade,
     foreign key(parcel_id) references parcels(id) on delete cascade on update cascade
     );
 
 INSERT INTO orders (user_id, parcel_id, created_at, delivered_at) VALUES
                                                                       (1, 1, '2025-08-20 10:15:00', NULL),
                                                                       (2, 2, '2025-08-18 15:30:00', '2025-08-25 12:00:00');
+
+

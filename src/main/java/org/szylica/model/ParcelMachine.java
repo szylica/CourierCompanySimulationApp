@@ -10,9 +10,9 @@ import lombok.*;
 public class ParcelMachine {
     private Long id;
     private String name;
-    @Getter
-    private double latitude;
-    @Getter
-    private double longitude;
     private String address;
+    @Getter
+    double latitude;
+    @Getter
+    double longitude;
 }

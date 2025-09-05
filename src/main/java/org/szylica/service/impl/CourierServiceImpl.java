@@ -18,7 +18,6 @@ import org.szylica.database.repository.ParcelRepository;
 import org.szylica.database.repository.impl.LockerRepositoryImpl;
 import org.szylica.service.CourierService;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -38,9 +37,10 @@ public class CourierServiceImpl implements CourierService {
     public List<ParcelMachine> findClosestParcelMachinesFromUser(UserDto userDto) {
         var user = userRepositoryFileImpl.findById(userDto.userId());
 
-        return parcelMachineRepositoryImpl.getClosestParcelMachines(
-                user.orElseThrow().getLatitude(),
-                user.orElseThrow().getLongitude());
+        return null;
+//        return parcelMachineRepositoryImpl.getClosestParcelMachinesWithLockerAvailable(
+//                user.orElseThrow().getLatitude(),
+//                user.orElseThrow().getLongitude());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class CourierServiceImpl implements CourierService {
 
     public void setUpParcel(Parcel parcel, ParcelMachineDto parcelMachineDto) {
         var lockersInPm = lockerRepositoryImpl.getAllLockersFromParcelMachine(parcelMachineDto.parcelMachineId());
-        var lockerSizeNeeded = Parcel.calculateLockerSize(parcel);
+        var lockerSizeNeeded = parcel.calculateLockerSize();
 
         var finalLocker = lockersInPm
                 .stream()

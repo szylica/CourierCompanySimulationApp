@@ -43,9 +43,22 @@ public class App {
                 .longitude(21.01178)
                 .build());
 
+        parcelMachineRepository.insert(ParcelMachine.builder()
+                .name("Paczkomat WAW001")
+                .address("pies")
+                .latitude(24.121)
+                .longitude(12.122)
+                .build());
+
         lockerRepository.insert(Locker.builder()
                 .parcelMachineId(1L)
                 .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .build());
+
+        lockerRepository.insert(Locker.builder()
+                .parcelMachineId(2L)
+                .size(LockerSize.SMALL)
                 .status(LockerStatus.FREE)
                 .build());
 
@@ -72,6 +85,16 @@ public class App {
         System.out.println(parcelRepository.findAll());
         System.out.println("----------- [ORDERS] -----------");
         System.out.println(orderRepository.findAll());
+
+        System.out.println(parcelMachineRepository.getClosestParcelMachinesWithLockerAvailable(24.121,
+                12.122,
+                1,
+                LockerSize.SMALL));
+        System.out.println("********");
+        System.out.println(parcelMachineRepository.getOneClosestParcelMachineWithLockerAvailable(24.122,
+                12.123,
+                10000,
+                LockerSize.SMALL));
 
 //        var pm = new ParcelMachine(1L, "Paczkomat WAW001", 52.22977, 21.01178, "Warszawa, ul. Marszałkowska 1");
 //        var pmDto = new ParcelMachineDto(1L);

@@ -1,6 +1,7 @@
 package org.szylica.model;
 
 import lombok.*;
+import org.szylica.util.NearestPoint;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +16,11 @@ public class User {
     private String email;
     private String phone;
     @Getter
-    private Double latitude;
+    private double latitude;
     @Getter
-    private Double longitude;
+    private double longitude;
+
+    public double calcDistanceFromParcelMachine(ParcelMachine parcelMachine) {
+        return NearestPoint.haversine(latitude, longitude, parcelMachine.latitude, parcelMachine.longitude);
+    }
 }

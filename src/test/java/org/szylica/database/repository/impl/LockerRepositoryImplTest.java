@@ -10,8 +10,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.szylica.database.builder.TableBuilder;
-import org.szylica.database.repository.ParcelMachineRepository;
+import org.szylica.database.repository.LockerRepository;
 import org.szylica.model.ParcelMachine;
+import org.szylica.model.locker.Locker;
+import org.szylica.model.locker.enums.LockerSize;
+import org.szylica.model.locker.enums.LockerStatus;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -19,7 +22,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.Map;
 
 @Testcontainers(disabledWithoutDocker = true)
-public class ParcelMachineRepositoryImplTest {
+public class LockerRepositoryImplTest {
 
     @Container
     static final MySQLContainer<?> mySQLContainer = new MySQLContainer<>("mysql:8.4.3")
@@ -38,135 +41,121 @@ public class ParcelMachineRepositoryImplTest {
     @RegisterExtension
     static JdbiExtension jdbiExtension = JdbiTestcontainersExtension.instance(mysqlContainerInformation, mySQLContainer);
 
-    ParcelMachineRepository parcelMachineRepository;
+    LockerRepository lockerRepository;
 
     @BeforeEach
     void setUp() {
         createTables();
-        parcelMachineRepository = new ParcelMachineRepositoryImpl(jdbiExtension.getJdbi());
+        lockerRepository = new LockerRepositoryImpl(jdbiExtension.getJdbi());
     }
 
     @Test
-    @DisplayName("Insert and get all parcel machines")
-    void test1(){
-        var parcelMachine = ParcelMachine.builder()
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+    @DisplayName("Insert and get all lockers")
+    void test1() {
+        var locker = Locker.builder()
+                .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        var expectedParcelMachine = ParcelMachine.builder()
+        var expectedLocker = Locker.builder()
                 .id(1L)
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+                .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        Assertions.assertThat(parcelMachineRepository.insert(parcelMachine)).isEqualTo(expectedParcelMachine);
-        Assertions.assertThat(parcelMachineRepository.findAll()).containsExactly(expectedParcelMachine);
+        Assertions.assertThat(lockerRepository.insert(locker)).isEqualTo(expectedLocker);
+        Assertions.assertThat(lockerRepository.findAll()).containsExactly(expectedLocker);
     }
 
     @Test
-    @DisplayName("Insert and get all parcel machine by id")
-    void test2(){
-        var parcelMachine = ParcelMachine.builder()
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+    @DisplayName("Insert and get all lockers by id")
+    void test2() {
+        var locker = Locker.builder()
+                .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        var expectedParcelMachine = ParcelMachine.builder()
+        var expectedLocker = Locker.builder()
                 .id(1L)
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+                .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        Assertions.assertThat(parcelMachineRepository.insert(parcelMachine)).isEqualTo(expectedParcelMachine);
-        Assertions.assertThat(parcelMachineRepository.findById(1L).get()).isEqualTo(expectedParcelMachine);
+        Assertions.assertThat(lockerRepository.insert(locker)).isEqualTo(expectedLocker);
+        Assertions.assertThat(lockerRepository.findById(1L).get()).isEqualTo(expectedLocker);
     }
 
     @Test
-    @DisplayName("Insert and update parcel machine")
-    void test3(){
-        var parcelMachine = ParcelMachine.builder()
-                .name("Paczkomat AAW001")
-                .address("kot")
-                .latitude(53.22977)
-                .longitude(21.01178)
+    @DisplayName("Insert and update locker")
+    void test3() {
+        var locker = Locker.builder()
+                .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        var parcelMachineToUpdate = ParcelMachine.builder()
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+        var lockerToUpdate = Locker.builder()
+                .size(LockerSize.LARGE)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        var expectedParcelMachine = ParcelMachine.builder()
+        var expectedLocker = Locker.builder()
                 .id(1L)
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+                .size(LockerSize.LARGE)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        parcelMachineRepository.insert(parcelMachine);
-        parcelMachineRepository.update(1L, parcelMachineToUpdate);
-        Assertions.assertThat(parcelMachineRepository.findById(1L).get()).isEqualTo(expectedParcelMachine);
+        lockerRepository.insert(locker);
+        lockerRepository.update(1L, lockerToUpdate);
+        Assertions.assertThat(lockerRepository.findById(1L).get()).isEqualTo(expectedLocker);
     }
 
     @Test
-    @DisplayName("Insert and delete parcel machine")
-    void test4(){
+    @DisplayName("Insert and delete locker")
+    void test4() {
 
-
-        var parcelMachine = ParcelMachine.builder()
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+        var locker = Locker.builder()
+                .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        var expectedParcelMachine = ParcelMachine.builder()
+        var expectedLocker = Locker.builder()
                 .id(1L)
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+                .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        parcelMachineRepository.insert(parcelMachine);
-        parcelMachineRepository.delete(1L);
-        Assertions.assertThat(parcelMachineRepository.findById(1L).isPresent()).isFalse();
+        lockerRepository.insert(locker);
+        lockerRepository.delete(1L);
+        Assertions.assertThat(lockerRepository.findById(1L).isPresent()).isFalse();
     }
 
     @Test
-    @DisplayName("Insert and find all parcel machine with args")
-    void test5(){
-
-
-        var parcelMachine = ParcelMachine.builder()
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+    @DisplayName("Insert and find all locker with args")
+    void test5() {
+        var locker = Locker.builder()
+                .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        var expectedParcelMachine = ParcelMachine.builder()
+        var expectedLocker = Locker.builder()
                 .id(1L)
-                .name("Paczkomat WAW001")
-                .address("pies")
-                .latitude(52.22977)
-                .longitude(21.01178)
+                .size(LockerSize.MEDIUM)
+                .status(LockerStatus.FREE)
+                .parcelMachineId(1L)
                 .build();
 
-        parcelMachineRepository.insert(parcelMachine);
-        Assertions.assertThat(parcelMachineRepository.findAllWhere(Map.of("id", "1"))).containsExactly(expectedParcelMachine);
+        lockerRepository.insert(locker);
+        Assertions.assertThat(lockerRepository.findAllWhere(Map.of("id", "1"))).containsExactly(expectedLocker);
     }
 
 
@@ -200,45 +189,17 @@ public class ParcelMachineRepositoryImplTest {
                             "cascade")
                     .buildSql();
 
-            var parcelsTableSql = new TableBuilder("parcels")
-                    .addColumn("id", "bigint", "primary key", "auto_increment")
-                    .addColumn("width", "int", "not null")
-                    .addColumn("height", "int", "not null")
-                    .addColumn("depth", "int", "not null")
-                    .addColumn("status", "varchar(50)", "not null")
-                    .addColumn("locker_id", "bigint")
-                    .addForeignKeyConstraint(
-                            "locker_id",
-                            "lockers",
-                            "id",
-                            "cascade",
-                            "cascade")
-                    .buildSql();
-
-            var ordersTableSql = new TableBuilder("orders")
-                    .addColumn("id", "bigint", "primary key", "auto_increment")
-                    .addColumn("created_at", "timestamp", "not null")
-                    .addColumn("delivered_at", "timestamp")
-                    .addColumn("user_id", "bigint", "not null")
-                    .addColumn("parcel_id", "bigint")
-                    .addForeignKeyConstraint(
-                            "parcel_id",
-                            "parcels",
-                            "id",
-                            "cascade",
-                            "cascade")
-                    .buildSql();
             handle.execute(parcelMachinesTableSql);
             handle.execute(lockersTableSql);
-            handle.execute(parcelsTableSql);
-            handle.execute(ordersTableSql);
+            handle.execute("""
+                    insert into parcel_machines (name, latitude, longitude, address)
+                    values('Paczkomat WAW001', 52.22977, 21.01178, 'pies')
+                    """);
         });
     }
 
     void dropTables() {
         jdbiExtension.getJdbi().useHandle(handle -> {
-            handle.execute("DROP TABLE orders");
-            handle.execute("DROP TABLE parcels");
             handle.execute("DROP TABLE lockers");
             handle.execute("DROP TABLE parcel_machines");
 

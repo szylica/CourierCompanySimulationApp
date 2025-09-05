@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @ToString
 @Builder
 public class Order {

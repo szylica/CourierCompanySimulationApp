@@ -1,11 +1,13 @@
 package org.szylica.model.parcel;
 
 import lombok.*;
+import org.szylica.model.locker.Locker;
 import org.szylica.model.locker.enums.LockerSize;
 import org.szylica.model.parcel.enums.ParcelStatus;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @ToString
 @Builder
 public class Parcel {
@@ -17,22 +19,6 @@ public class Parcel {
     private Integer depth;
     private ParcelStatus status;
 
-    public static LockerSize calculateLockerSize(Integer width, Integer height, Integer depth) {
-        if(width <= 10 && height <= 10 && depth <= 10){
-            return LockerSize.SMALL;
-        }
-        else if(width <= 20 && height <= 20 && depth <= 20){
-            return LockerSize.MEDIUM;
-        }
-        else if(width <= 30 && height <= 30 && depth <= 30){
-            return LockerSize.LARGE;
-        }
-        throw new IllegalStateException("Parcel is too big for Parcel Machine");
-    }
-
-    public static LockerSize calculateLockerSize(Parcel parcel) {
-        return calculateLockerSize(parcel.width, parcel.height, parcel.depth);
-    }
 
     public Parcel withLocker(Long lockerId) {
         return Parcel.builder()
@@ -43,5 +29,9 @@ public class Parcel {
                 .depth(this.depth)
                 .status(this.status)
                 .build();
+    }
+
+    public LockerSize calculateLockerSize() {
+        return Locker.calculateLockerSize(this.width, this.height, this.depth);
     }
 }
