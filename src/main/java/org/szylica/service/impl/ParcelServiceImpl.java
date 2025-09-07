@@ -34,13 +34,19 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
     @Override
-    public boolean assignLockerToParcel(Long parcelMachineId, LockerSize lockerSize) {
+    public Long assignLockerToParcel(Long parcelMachineId, LockerSize lockerSize) {
         var freeLockers = lockerRepository.getAllFreeLockersInSizeFromParcelMachine(lockerSize, parcelMachineId);
         if(freeLockers.isEmpty()){
             throw new IllegalStateException("No free lockers in parcel machine with this size");
         }
 
-        return lockerRepository.updateLockerStatus(freeLockers.getFirst().getId(), LockerStatus.OCCUPIED);
+        var lockerId = freeLockers.getFirst().getId();
+
+        var updated = lockerRepository.updateLockerStatus(lockerId, LockerStatus.OCCUPIED);
+        if(!updated){
+            throw new IllegalStateException("Failed to update locker status");
+        }
+        return lockerId;
 
     }
 }

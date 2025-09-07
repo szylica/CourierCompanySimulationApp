@@ -33,15 +33,6 @@ public class CourierServiceImpl implements CourierService {
     private final LockerRepositoryImpl lockerRepositoryImpl;
 
 
-    @Override
-    public List<ParcelMachine> findClosestParcelMachinesFromUser(UserDto userDto) {
-        var user = userRepositoryFileImpl.findById(userDto.userId());
-
-        return null;
-//        return parcelMachineRepositoryImpl.getClosestParcelMachinesWithLockerAvailable(
-//                user.orElseThrow().getLatitude(),
-//                user.orElseThrow().getLongitude());
-    }
 
     @Override
     public Order registerOrder(UserDto sendingUser) {

@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface ParcelService {
 
     Optional<ParcelMachine> findNearestParcelMachine(Long userId, LockerSize lockerSize, double distanceLimit);
-    boolean assignLockerToParcel(Long parcelMachineId, LockerSize lockerSize);
+    Long assignLockerToParcel(Long parcelMachineId, LockerSize lockerSize);
 }

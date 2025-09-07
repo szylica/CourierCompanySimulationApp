@@ -12,5 +12,5 @@ public interface LockerRepository extends CrudRepository<Locker, Long> {
     boolean isLockerFree(Long id);
     List<Locker> getAllLockersFromParcelMachine(Long parcelMachineId);
     List<Locker> getAllFreeLockersInSizeFromParcelMachine(LockerSize size, Long parcelMachineId);
-    public boolean updateLockerStatus(Long lockerId, LockerStatus lockerStatus);
+    boolean updateLockerStatus(Long lockerId, LockerStatus lockerStatus);
 }
